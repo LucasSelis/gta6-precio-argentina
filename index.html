@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Cuánto sale GTA VI en pesos, hoy?</title>
+<meta name="description" content="Calculadora del precio de GTA VI en Argentina con el dólar en vivo: cuánto pagás según cómo cancelás la tarjeta.">
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#ffffff; --ink:#14213d; --soft:#5a6478; --line:#dfe4ec;
+    --blue:#2a6fdb; --red:#c8372d; --green:#178f6b; --pink:#d6336c;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0f1524; --card:#182036; --ink:#eef2fa; --soft:#a4aec4; --line:#2a3550; --blue:#6aa2ff; --red:#ff7b6e; --green:#3fd0a1; --pink:#ff6fa3; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.5}
+  .wrap{max-width:980px;margin:0 auto;padding:36px 20px 60px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);font-weight:600}
+  h1{font-size:clamp(28px,5vw,42px);line-height:1.1;margin:8px 0 10px;letter-spacing:-.02em}
+  .lead{color:var(--soft);font-size:17px;max-width:66ch;margin:0 0 18px}
+  #status{font-size:12.5px;color:var(--soft);margin:0 0 14px}
+  .controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:end;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:18px}
+  .controls label{font-size:12.5px;color:var(--soft);font-weight:600;display:block;margin-bottom:5px}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{font:inherit;font-size:14px;border:0;background:transparent;color:var(--ink);padding:7px 14px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+  select{font:inherit;font-size:14px;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .kpi .l{font-size:12.5px;color:var(--soft);font-weight:600}
+  .kpi .v{font-size:32px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin:2px 0}
+  .kpi .s{font-size:13.5px;color:var(--soft)}
+  .neg{color:var(--red)} .pos{color:var(--green)}
+  .story{background:var(--card);border-left:4px solid var(--blue);border-radius:10px;padding:14px 18px;margin:0 0 20px;font-size:16px}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 18px 16px;margin-bottom:20px}
+  .panel h2{font-size:19px;margin:0 0 4px}
+  .panel .sub{color:var(--soft);font-size:14px;margin:0 0 14px}
+  .esc{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:12px 0;border-top:1px solid var(--line)}
+  .esc:first-of-type{border-top:0}
+  .esc .n{font-weight:700}
+  .esc .p{font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;text-align:right}
+  .esc .d{grid-column:1 / -1;font-size:13.5px;color:var(--soft)}
+  .bar{grid-column:1 / -1;height:10px;border-radius:6px;background:var(--line);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:6px;background:var(--blue)}
+  .esc.best .bar i{background:var(--green)}
+  .esc.worst .bar i{background:var(--red)}
+  .tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-left:8px;padding:2px 7px;border-radius:6px;background:var(--bg);color:var(--green)}
+  svg{width:100%;height:auto;display:block}
+  .ax{fill:var(--soft);font-size:12px;font-variant-numeric:tabular-nums}
+  .lbl{fill:var(--ink);font-size:13px}
+  .method{font-size:13.5px;color:var(--soft)}
+  .method code{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+  a{color:var(--blue)}
+  footer{font-size:13px;color:var(--soft);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">GTA VI &middot; Precio en Argentina &middot; Dólar en vivo</div>
+  <h1>¿Cuánto te sale GTA VI hoy, en pesos?</h1>
+  <p class="lead">La PS Store cobra en dólares. Lo que terminás pagando depende de algo que pocos miran: cómo cancelás el resumen de la tarjeta. Esta página lo calcula con las cotizaciones de este momento.</p>
+  <p id="status">Cargando cotizaciones&hellip;</p>
+
+  <div class="controls">
+    <div>
+      <label>Edición</label>
+      <div class="seg" id="ediciones">
+        <button type="button" data-ed="estandar" aria-pressed="true">Estándar · US$79,99</button>
+        <button type="button" data-ed="ultimate" aria-pressed="false">Ultimate · US$99,99</button>
+      </div>
+    </div>
+    <div>
+      <label for="iibb">Ingresos Brutos (según tu provincia)</label>
+      <select id="iibb">
+        <option value="0">No lo sé / no me lo cobran</option>
+        <option value="0.02">2%</option>
+        <option value="0.03">3%</option>
+        <option value="0.035">3,5%</option>
+        <option value="0.05">5%</option>
+        <option value="0.055">5,5%</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+  <div class="story" id="story"></div>
+
+  <div class="panel">
+    <h2>Mismo juego, tres precios</h2>
+    <p class="sub">Precio de lista + 21% de IVA, convertido con la cotización que corresponde a cada forma de pago.</p>
+    <div id="escenarios"></div>
+  </div>
+
+  <div class="panel">
+    <h2>GTA V vs. GTA VI: cuántos días de sueldo</h2>
+    <p class="sub">Precio del juego frente al salario promedio registrado (RIPTE) pasado a dólares. GTA V salió en sep-2013 a US$59,99; GTA VI sale a US$79,99 + IVA.</p>
+    <div class="kpis" id="kpis-hist" style="margin-bottom:8px"></div>
+    <svg id="hist" viewBox="0 0 900 360" role="img" aria-label="Salario promedio en dólares, 2012 a 2026"></svg>
+    <p class="sub" id="hist-nota" style="margin-top:10px"></p>
+  </div>
+
+  <div class="panel">
+    <h2>Argentina en el ranking mundial</h2>
+    <p class="sub">Precio final de la edición estándar, en dólares: los 7 más caros de 29 mercados, con España, Alemania y el precio de lista de EE.UU. como referencia. En Argentina, todo el sobreprecio es impuesto.</p>
+    <svg id="ranking" viewBox="0 0 900 420" role="img" aria-label="Países donde GTA VI es más caro"></svg>
+  </div>
+
+  <div class="panel method">
+    <h2>Método y fuentes</h2>
+    <p><b>Precio:</b> US$79,99 (Estándar) y US$99,99 (Ultimate) en la PS Store de Argentina. La tienda suma el 21% de IVA por servicios digitales al pagar: US$96,79 y US$120,99.</p>
+    <p><b>Cotizaciones:</b> se piden en vivo a <a href="https://dolarapi.com" target="_blank" rel="noopener">dolarapi.com</a> (<code>/v1/dolares</code>), precio de venta: oficial, MEP (<code>bolsa</code>) y tarjeta. Si la API no responde, se usa una copia del 19/11/2026 incluida en la página.</p>
+    <p><b>Percepción del 30%:</b> desde abril de 2025, ARCA no la cobra en plataformas de videojuegos como PlayStation Network <i>cuando el resumen se paga en dólares</i>. Si lo pagás en pesos, la tarjeta liquida al dólar tarjeta (oficial + 30%).</p>
+    <p><b>Ingresos Brutos:</b> algunas provincias cobran entre 2% y 5,5% sobre servicios digitales. Depende de tu provincia y de tu banco, por eso es opcional.</p>
+    <p><b>GTA V vs. GTA VI:</b> <code>analisis.py</code> baja de <a href="https://datos.gob.ar/" target="_blank" rel="noopener">datos.gob.ar</a> el RIPTE (<code>158.1_REPTE_0_0_5</code>) y el dólar de referencia BCRA "A" 3500 (<code>175.1_DR_REFE500_0_0_25</code>, promedio mensual), y escribe <code>data.csv</code>. Días de sueldo = precio en USD ÷ salario en USD × 30. Se descartan meses en que el RIPTE repite un valor anterior al centavo (pasó en ago-2026). Usa el dólar mayorista como referencia: en 2013 regía el cepo y con tarjeta se pagaba más.</p>
+    <p><b>Ranking:</b> GTA 6 Price Index de Leonida Lab, citado por <a href="https://www.lmneuquen.com/estilo-vida/gta-vi-el-precio-argentina-y-que-es-el-sexto-pais-donde-cuesta-mas-caro-todo-el-mundo-n1261618" target="_blank" rel="noopener">LM Neuquén</a> (18/11/2026). Es una foto: los tipos de cambio de otros países no se actualizan acá.</p>
+    <p><b>Límites:</b> no es asesoramiento impositivo. El cargo exacto lo ves en el checkout y en tu resumen. Xbox Store Argentina lo lista en $113.299 (Estándar), sin aclarar si incluye impuestos.</p>
+  </div>
+
+  <footer>Lucas Selis · Data Analyst &middot; <a href="https://github.com/LucasSelis/gta6-precio-argentina" target="_blank" rel="noopener">Código</a> &middot; <a href="https://www.linkedin.com/in/lucas-selis/" target="_blank" rel="noopener">LinkedIn</a></footer>
+</div>
+
+<script src="calculo.js"></script>
+<script>
+const FALLBACK = {
+  fecha: "2026-11-19T18:00:00.000Z",
+  dolares: [
+    { casa: "oficial", venta: 1585 },
+    { casa: "bolsa", venta: 1649.8 },
+    { casa: "tarjeta", venta: 2060.5 },
+  ],
+};
+
+// Leonida Lab, GTA 6 Price Index (edición estándar, USD con impuestos).
+const RANKING = [
+  ["Israel", 103.79], ["Noruega", 100.25], ["Hungría", 98.83], ["Uruguay", 97.59],
+  ["Suiza", 97.36], ["Argentina", 96.79], ["Colombia", 95.19], ["España", 90.83],
+  ["Alemania", 90.83], ["EE.UU. (lista)", 79.99],
+];
+
+const estado = { edicion: "estandar", iibb: 0, cotizaciones: null, fecha: null, enVivo: false };
+
+const pesos = (n) => "$" + Math.round(n).toLocaleString("es-AR");
+const pct = (x) => (x * 100).toLocaleString("es-AR", { maximumFractionDigits: 0 }) + "%";
+
+async function cargar() {
+  try {
+    const r = await fetch("https://dolarapi.com/v1/dolares", { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const datos = await r.json();
+    estado.cotizaciones = cotizacionesPorCasa(datos);
+    const t = datos.find((d) => d.casa === "oficial");
+    estado.fecha = t ? t.fechaActualizacion : null;
+    estado.enVivo = true;
+  } catch (e) {
+    estado.cotizaciones = cotizacionesPorCasa(FALLBACK.dolares);
+    estado.fecha = FALLBACK.fecha;
+    estado.enVivo = false;
+  }
+  const f = estado.fecha ? new Date(estado.fecha).toLocaleString("es-AR", { dateStyle: "medium", timeStyle: "short" }) : "s/d";
+  document.getElementById("status").textContent = estado.enVivo
+    ? `Cotizaciones en vivo de dolarapi.com · actualizadas ${f}`
+    : `No se pudo consultar la API: se usa la copia del ${f}.`;
+  render();
+}
+
+function render() {
+  const ed = EDICIONES[estado.edicion];
+  const esc = calcularEscenarios(ed.usd, estado.cotizaciones, estado.iibb);
+  if (!esc.length) return;
+  const best = esc[0], worst = esc[esc.length - 1];
+
+  document.getElementById("kpis").innerHTML = `
+    <div class="kpi"><div class="l">Lo más barato</div><div class="v pos">${pesos(best.pesos)}</div><div class="s">${best.nombre}</div></div>
+    <div class="kpi"><div class="l">Lo más caro</div><div class="v neg">${pesos(worst.pesos)}</div><div class="s">${worst.nombre}</div></div>
+    <div class="kpi"><div class="l">Diferencia</div><div class="v">${pesos(worst.pesos - best.pesos)}</div><div class="s">${pct(brecha(esc))} más, por la misma copia del juego</div></div>`;
+
+  document.getElementById("story").innerHTML =
+    `GTA VI ${ed.nombre} cuesta <b>US$${precioConIva(ed.usd).toLocaleString("es-AR")}</b> con IVA. Si dejás que la tarjeta lo pase a pesos, pagás <b>${pct(brecha(esc))} más</b> que si cancelás el resumen con dólares comprados al oficial.`;
+
+  const max = worst.pesos;
+  document.getElementById("escenarios").innerHTML = esc.map((e, i) => `
+    <div class="esc ${i === 0 ? "best" : ""} ${i === esc.length - 1 ? "worst" : ""}">
+      <div class="n">${e.nombre}${i === 0 ? '<span class="tag">Conviene</span>' : ""}</div>
+      <div class="p">${pesos(e.pesos)}</div>
+      <div class="bar"><i style="width:${(e.pesos / max * 100).toFixed(1)}%"></i></div>
+      <div class="d">${e.detalle} Cotización: ${pesos(e.cotizacion)}.</div>
+    </div>`).join("");
+}
+
+function dibujarRanking() {
+  const svg = document.getElementById("ranking");
+  const W = 900, x0 = 130, x1 = 820, rowH = 38, top = 14;
+  const max = 110;
+  let s = "";
+  for (const v of [0, 25, 50, 75, 100]) {
+    const x = x0 + (v / max) * (x1 - x0);
+    s += `<line x1="${x}" x2="${x}" y1="${top - 4}" y2="${top + RANKING.length * rowH}" stroke="var(--line)"/>`;
+    s += `<text class="ax" x="${x}" y="${top + RANKING.length * rowH + 18}" text-anchor="middle">US$${v}</text>`;
+  }
+  RANKING.forEach(([pais, usd], i) => {
+    const y = top + i * rowH;
+    const w = (usd / max) * (x1 - x0);
+    const color = pais === "Argentina" ? "var(--pink)" : pais.startsWith("EE.UU.") ? "var(--green)" : "var(--blue)";
+    s += `<text class="lbl" x="${x0 - 10}" y="${y + 21}" text-anchor="end" ${pais === "Argentina" ? 'font-weight="700"' : ""}>${pais}</text>`;
+    s += `<rect x="${x0}" y="${y + 6}" width="${w}" height="22" rx="4" fill="${color}"/>`;
+    s += `<text class="lbl" x="${x0 + w + 8}" y="${y + 22}" font-weight="700">${usd.toLocaleString("es-AR", { minimumFractionDigits: 2 })}</text>`;
+  });
+  svg.setAttribute("viewBox", `0 0 ${W} ${top + RANKING.length * rowH + 28}`);
+  svg.innerHTML = s;
+}
+
+document.getElementById("ediciones").addEventListener("click", (ev) => {
+  const b = ev.target.closest("button");
+  if (!b) return;
+  estado.edicion = b.dataset.ed;
+  document.querySelectorAll("#ediciones button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+  render();
+});
+document.getElementById("iibb").addEventListener("change", (ev) => {
+  estado.iibb = Number(ev.target.value);
+  render();
+});
+
+// Serie histórica generada por analisis.py (RIPTE / dólar A 3500, promedio mensual).
+async function historico() {
+  let filas;
+  try {
+    const txt = await (await fetch("data.csv", { cache: "no-store" })).text();
+    filas = txt.trim().split(/\r?\n/).slice(1).map((l) => {
+      const [mes, ripte, dolar, salario_usd] = l.split(",");
+      return { mes, salario_usd: Number(salario_usd) };
+    });
+  } catch (e) {
+    document.getElementById("hist-nota").textContent = "No se pudo cargar data.csv.";
+    return;
+  }
+  const v = filas.filter((f) => f.mes <= "2013-09").pop();
+  const vi = filas[filas.length - 1];
+  const diasV = (59.99 / v.salario_usd) * 30;
+  const diasVI = (precioConIva(79.99) / vi.salario_usd) * 30;
+  const dias = (d) => d.toLocaleString("es-AR", { maximumFractionDigits: 1 }) + " días";
+  const mesTxt = (m) => new Date(m + "-15").toLocaleDateString("es-AR", { month: "short", year: "numeric" });
+
+  document.getElementById("kpis-hist").innerHTML = `
+    <div class="kpi"><div class="l">GTA V (${mesTxt(v.mes)})</div><div class="v">${dias(diasV)}</div><div class="s">de sueldo promedio · salario US$${Math.round(v.salario_usd).toLocaleString("es-AR")}</div></div>
+    <div class="kpi"><div class="l">GTA VI (con IVA, salario de ${mesTxt(vi.mes)})</div><div class="v neg">${dias(diasVI)}</div><div class="s">de sueldo promedio · salario US$${Math.round(vi.salario_usd).toLocaleString("es-AR")}</div></div>
+    <div class="kpi"><div class="l">Cuánto más pesa</div><div class="v">${(diasVI / diasV).toLocaleString("es-AR", { maximumFractionDigits: 1 })}×</div><div class="s">precio de lista +33%, más 21% de IVA, y el salario en dólares bajó ${Math.round((1 - vi.salario_usd / v.salario_usd) * 100)}%</div></div>`;
+
+  const svg = document.getElementById("hist");
+  const W = 900, H = 360, L = 60, R = 20, T = 20, B = 36;
+  const xs = (i) => L + (i / (filas.length - 1)) * (W - L - R);
+  const max = 1800;
+  const ys = (u) => T + (1 - u / max) * (H - T - B);
+  let s = "";
+  for (const u of [0, 400, 800, 1200, 1600]) {
+    s += `<line x1="${L}" x2="${W - R}" y1="${ys(u)}" y2="${ys(u)}" stroke="var(--line)"/>`;
+    s += `<text class="ax" x="${L - 8}" y="${ys(u) + 4}" text-anchor="end">US$${u.toLocaleString("es-AR")}</text>`;
+  }
+  filas.forEach((f, i) => {
+    if (f.mes.endsWith("-01") && Number(f.mes.slice(0, 4)) % 2 === 0)
+      s += `<text class="ax" x="${xs(i)}" y="${H - 12}" text-anchor="middle">${f.mes.slice(0, 4)}</text>`;
+  });
+  s += `<path d="${filas.map((f, i) => (i ? "L" : "M") + xs(i).toFixed(1) + " " + ys(f.salario_usd).toFixed(1)).join(" ")}" fill="none" stroke="var(--blue)" stroke-width="2.5"/>`;
+  for (const [f, txt, color] of [[v, "GTA V", "var(--green)"], [vi, "GTA VI", "var(--pink)"]]) {
+    const i = filas.indexOf(f);
+    s += `<circle cx="${xs(i)}" cy="${ys(f.salario_usd)}" r="6" fill="${color}" stroke="var(--card)" stroke-width="2"/>`;
+    s += `<text class="lbl" x="${xs(i)}" y="${ys(f.salario_usd) - 14}" text-anchor="middle" font-weight="700">${txt}</text>`;
+  }
+  svg.innerHTML = s;
+  document.getElementById("hist-nota").textContent =
+    `Línea: salario promedio registrado en dólares (RIPTE ÷ dólar de referencia BCRA). Datos de ${mesTxt(filas[0].mes)} a ${mesTxt(vi.mes)}; el último RIPTE publicado es el de ${mesTxt(vi.mes)}.`;
+}
+
+dibujarRanking();
+cargar();
+historico();
+</script>
+</body>
+</html>

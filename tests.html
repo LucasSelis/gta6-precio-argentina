@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Tests · calculo.js</title></head>
+<body>
+<pre id="out"></pre>
+<script src="calculo.js"></script>
+<script>
+const res = [];
+function test(nombre, fn) {
+  try { fn(); res.push("ok   " + nombre); }
+  catch (e) { res.push("FAIL " + nombre + " → " + e.message); }
+}
+function igual(a, b) { if (a !== b) throw new Error(`esperaba ${b}, dio ${a}`); }
+function cerca(a, b, tol = 1e-9) { if (Math.abs(a - b) > tol) throw new Error(`esperaba ~${b}, dio ${a}`); }
+
+test("IVA del 21% sobre la edición estándar da US$96,79", () => igual(precioConIva(79.99), 96.79));
+test("IVA del 21% sobre la Ultimate da US$120,99", () => igual(precioConIva(99.99), 120.99));
+test("costo en pesos = USD con IVA × cotización", () => igual(costoEnPesos(79.99, 1000), 96790));
+test("Ingresos Brutos se suma sobre el total en pesos", () => igual(costoEnPesos(79.99, 1000, 0.03), Math.round(96790 * 1.03)));
+test("cotización inválida devuelve NaN en vez de un precio falso", () => igual(Number.isNaN(costoEnPesos(79.99, 0)), true));
+test("Ingresos Brutos fuera de rango lanza error (evita cargar 3 en vez de 0,03)", () => {
+  let lanzo = false;
+  try { costoEnPesos(79.99, 1000, 3); } catch (e) { lanzo = e instanceof RangeError; }
+  igual(lanzo, true);
+});
+test("cotizacionesPorCasa ignora casas sin precio de venta", () => {
+  const c = cotizacionesPorCasa([{ casa: "oficial", venta: 1585 }, { casa: "blue", venta: null }, null]);
+  igual(Object.keys(c).join(","), "oficial");
+});
+test("escenarios ordenados del más barato al más caro", () => {
+  const e = calcularEscenarios(79.99, { oficial: 1585, bolsa: 1649.8, tarjeta: 2060.5 });
+  igual(e.map((x) => x.id).join(","), "oficial,mep,tarjeta");
+});
+test("si falta una cotización, ese escenario no aparece", () => {
+  const e = calcularEscenarios(79.99, { oficial: 1585, tarjeta: 2060.5 });
+  igual(e.length, 2);
+});
+test("brecha tarjeta vs oficial = 30% cuando el dólar tarjeta es oficial × 1,3", () => {
+  const e = calcularEscenarios(79.99, { oficial: 1000, tarjeta: 1300 });
+  cerca(brecha(e), 0.3, 1e-4);
+});
+
+const fallas = res.filter((r) => r.startsWith("FAIL")).length;
+res.push("", `${res.length - fallas} ok, ${fallas} fallas`);
+document.getElementById("out").textContent = res.join("\n");
+document.title = fallas ? "FALLAN TESTS" : "TESTS OK";
+</script>
+</body>
+</html>
